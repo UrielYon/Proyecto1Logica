@@ -1,4 +1,5 @@
-module Semantics where
+module Semantics 
+where
 
 import Syntax
 
@@ -10,7 +11,6 @@ inter e phi = case phi of
   FFalse -> False
   V x -> elem x e
   Neg p -> not ( p inter e p)
-  Conj p q -> (inter e p) || (inter e q)
   Disy p q -> (inter e p) && (inter e q)
   Imp p q -> not (inter e p) || (inter e q)
   Equiv p q -> (inter e p) == (inter e q)
@@ -21,7 +21,7 @@ estados phi = subconj (vars phi)
 -- 3. Conceptos semanticos
 
 modelos :: Prop -> [Estado]
-modelos phi = [e | e <- estados phi, interp phi
+modelos phi = [e | e <- estados phi, interp phi]
 
 tautologia :: Prop -> Bool
 tautologia :: phi = (modelos phi)
@@ -35,6 +35,9 @@ insatisfen e phi = not ()
 
 equiv :: Prop -> Prop -> Bool
 equiv p q = tautologia (Equiv p q)
+
+contrad :: Prop -> Bool
+contrad phi = []
 
 --5 Consecuencia Logica
 consecuencia :: [Prop] -> Prop -> Bool
@@ -53,11 +56,8 @@ vars phi = case phi of
   Equiv p q -> union (vars p) (vars q)
 
   subconj :: [a] -> [[a]]
-  subconj [] = [[]]
+ -- subconj [] = [[]]
   subconj (x:xs) = xs' ++ map  (x:) xs'
    where xs' = subconj xs
 
 
-
-
-  
