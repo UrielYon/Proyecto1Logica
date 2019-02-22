@@ -27,19 +27,48 @@ tautologia phi = (modelos phi) == (estados phi)
 satisf :: Prop -> Bool
 satisf phi = modelos phi /= []
 
+contrad :: Prop -> Bool
+contrad phi = modelos phi == []
+
 insatisfen :: Estado -> Prop -> Bool
 insatisfen e phi = (inter e phi) == False
---4
+
+satisfen:: Estado -> Prop -> Bool
+satisfen e phi = (inter e phi) == True 
+
 
 equiv :: Prop -> Prop -> Bool
 equiv p q = tautologia (Equiv p q)
 
---5 Consecuencia Logica
-{- 
-consecuencia :: [Prop] -> Prop -> Bool
 
-consecuencia gamma phi = insatisfen(phi:gamma) 
--}
+
+
+estadosConj :: [Prop] -> [Estado]
+estadosConj xs = estados (pega (xs))
+
+modelosConj :: [Prop] ->[Estado]
+modelosConj xs = modelos(pega xs)
+
+satisfConj :: [Prop] -> Bool
+satisfConj xs = satisf(pega xs)
+
+insatisfConj :: [Prop] -> Bool
+insatisfConj xs = contrad (pega xs)
+
+satisfenConj:: Estado -> [Prop] -> Bool
+satisfenConj e xs = satisfen e (pega xs)
+
+insatisfenConj:: Estado -> [Prop] -> Bool
+insatisfenConj e xs = insatisfen e (pega xs)
+
+
+pega :: [Prop] -> Prop
+pega [] = TTrue
+pega (x:xs) = Conj x (pega xs)
+
+
+consecuencia :: [Prop] -> Prop -> Bool
+consecuencia gamma phi = insatisfConj((Neg phi):gamma) 
 
 --Auxiliares
 vars :: Prop -> [VarP]
