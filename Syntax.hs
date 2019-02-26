@@ -13,6 +13,17 @@ data Prop = TTrue
           | Imp Prop Prop
           | Equiv Prop Prop
 
+instance Show Prop where
+  show phi = case phi of
+    TTrue -> "T"
+    FFalse -> "F"
+    V x -> show x
+    Neg p -> "(~" ++ show p ++ ")"
+    Conj p q -> "(" ++ show p ++ " ^ " ++ show q ++ ")"
+    Disy p q -> "(" ++ show p ++ " v " ++ show q ++ ")"
+    Imp p q -> "(" ++ show p ++ " -> " ++ show q ++ ")"
+    Equiv p q -> "(" ++ show p ++ " <-> " ++ show q ++ ")"
+
 
 eliminaEq :: Prop -> Prop
 eliminaEq phi = case phi of
@@ -73,3 +84,4 @@ fnc :: Prop -> Prop
 fnc = dist.fnn
 
 		
+
